@@ -1,27 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { Bot, Sparkles } from 'lucide-react';
+import { Bot, Sparkles, Volume2, VolumeX } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../services/api';
 import type { Business, RiskExplanationResult } from '../types/contagion';
 import { ErrorBlock, PageIntro } from '../components/RiskUI';
 
 export default function AiRiskExplanationPage() {
-  const { selectedBusinessId, setSelectedBusinessId, t } = useApp();
+  const { selectedBusinessId, setSelectedBusinessId, t, language } = useApp();
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [explanation, setExplanation] = useState<RiskExplanationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [speaking, setSpeaking] = useState(false);
 
   useEffect(() => {
     api
       .getBusinesses()
       .then((res) => setBusinesses(res.businesses))
       .catch(() => {});
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
+
+  const toggleVoice = () => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window) || !explanation) {
+      return;
+    }
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(
+      `${explanation.summary} Key recommendation: ${explanation.recommendedActions[0] ?? ''}`
+    );
+    utterance.lang =
+      language === 'hi'
+        ? 'hi-IN'
+        : language === 'mr'
+        ? 'mr-IN'
+        : language === 'ta'
+        ? 'ta-IN'
+        : 'en-IN';
+    utterance.rate = 0.98;
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    setSpeaking(true);
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleExplain = async () => {
     setLoading(true);
     setError(null);
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+    }
     try {
       const res = await api.explainRisk(selectedBusinessId);
       setExplanation(res);
@@ -55,6 +93,15 @@ export default function AiRiskExplanationPage() {
                 </option>
               ))}
             </select>
+            <button
+              type="button"
+              onClick={toggleVoice}
+              disabled={!explanation}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-[#0C1322] px-4 py-2.5 text-xs font-semibold text-slate-100 hover:border-slate-500 disabled:opacity-40 whitespace-nowrap"
+            >
+              {speaking ? <VolumeX className="h-4 w-4 text-red-400" /> : <Volume2 className="h-4 w-4 text-cyan-300" />}
+              {speaking ? 'Stop Voice' : 'Listen (Voice)'}
+            </button>
             <button
               type="button"
               onClick={handleExplain}
