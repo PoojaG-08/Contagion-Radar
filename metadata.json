@@ -1,0 +1,6 @@
+{
+  "name": "Contagion Radar",
+  "description": "Predicting Financial Shockwaves Before They Hit India's SME Supply Chain — Supply-Chain Financial Risk Intelligence Platform by Team AETHERGRID.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
