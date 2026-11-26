@@ -1,81 +1,132 @@
-# CONTAGION RADAR
+# 🌐 CONTAGION RADAR
+### Predicting Financial Shockwaves Before They Hit India's SME Supply Chain
 
-**Predicting Financial Shockwaves Before They Hit India's SME Supply Chain**
+**🚀 Live Demo:** https://contagion-radar.vercel.app/
 
-Developed by **Team AETHERGRID** (`SANDHYA S`, `R POOJA`, `POOJA G`, `MONISHWARAN B`) for TReDS exchanges, NBFCs, Tier-1 corporate buyers, and MSME suppliers.
+**💻 GitHub Repository:** https://github.com/PoojaG-08/Contagion-Radar
 
----
+Contagion Radar is a financial risk intelligence platform designed to identify, analyze, and visualize how delayed invoice payments can create financial stress across multi-tier SME supply chains.
 
-## Overview
-
-Contagion Radar shifts SME credit evaluation from isolated invoice checks to multi-tier supply-chain network risk intelligence. Using a directed financial dependency graph spanning Tier-1 buyers, MSMEs, Tier-2 job shops, and Tier-3 raw material mills, the platform models how delayed invoice settlements deplete cash buffers and propagate across connected vendors.
-
-> **Disclaimer:** All businesses, invoices, simulation numbers, and benchmark figures in the demo environment are simulated/model outputs for prototype demonstration and should not be interpreted as guaranteed financial forecasts.
+Developed by **Team AETHERGRID**.
 
 ---
 
-## Core Modules (15 Pages)
+## 👥 Team Members
 
-1. **Landing Page** (`/`) — Animated multi-tier contagion visualization, problem/solution framing, and entry CTAs.
-2. **MSME Simplified Dashboard** (`/dashboard`) — Centered on *Kaveri Precision Auto Components* (`UDYAM-MH-26-0078129`) with dynamic Health Score, Receivables Waiting, Overdue Amount, Runway, Buyer Concentration, and Supplier Dependency charts.
-3. **Invoice Management** (`/invoices`) — Create, edit, delete, search, filter, record payments, generate reminder drafts, and dictate entries via browser Speech Recognition.
-4. **Supply Chain Network Graph** (`/network-graph`) — Interactive draggable, zoomable 18-node multi-tier dependency graph with search, tier filters, and business inspector.
-5. **Financial Contagion Analysis** (`/contagion`) — Stage-by-stage BFS cascade simulation and animated wave playback.
-6. **Payment Shock Simulation** (`/shock-simulation`) — Configurable stress-tester (15–90 day delays, payment amount, default scenario, cash buffer, daily OpEx) seeded with the PPT reference scenario.
-7. **Early Warning & Risk Analytics** (`/early-warning`) — Risk band distribution, concentration charts, and triageable early-warning alerts.
-8. **Recommended Preventive Actions** (`/preventive-actions`) — TReDS invoice discounting estimator, MSMED Act Section 16 notice draft, critical supplier protection simulator, buyer diversification, and collection queue.
-9. **AI Risk Explanation** (`/ai-explanation`) — Server-side Gemini AI explanation (`gemini-4-hydrogen`) with transparent deterministic rule-based fallback.
-10. **Command Center – Advanced** (`/command-center`) — Institutional monitoring cockpit with network rankings, quick stress sensitivity, alert triage, and embedded graph.
-11. **System Architecture & Data Flow** (`/architecture`) — Interactive 4-stage pipeline diagram.
-12. **Stakeholder Value Ecosystem** (`/stakeholders`) — Value breakdown for Banks & NBFCs, TReDS, Large Buyers, and SME Suppliers.
-13. **Project Feasibility & Scope** (`/feasibility`) — Hackathon scope, risks & mitigations, and next steps.
-14. **Early Warning Risk Metrics** (`/risk-metrics`) — Illustrative prototype coverage benchmark (35% Traditional vs. 92% Contagion Radar Engine).
-15. **Strategic Roadmap** (`/roadmap`) — 4-phase interactive horizontal roadmap.
+- POOJA G
+- SANDHYA S
+- R POOJA
+- MONISHWARAN B
 
 ---
 
-## Setup & Local Development
+## 🚀 Project Overview
 
-### Prerequisites
-- Node.js `>= 20` (tested on Node `v22+`)
-- npm
+Small and Medium Enterprises (SMEs) often depend on timely payments from buyers to manage their daily operations. When payments are delayed, financial stress can spread from one business to its suppliers and other connected businesses.
 
-### Environment Variables
-Copy `.env.example` to `.env` if running outside AI Studio:
+Contagion Radar addresses this challenge by analyzing financial dependencies across supply chains.
+
+The platform helps identify potential financial risks, simulate payment delays, visualize the spread of financial stress, and recommend preventive actions.
+
+---
+
+## ✨ Key Features
+
+- **Financial Risk Dashboard:** Business health scores, outstanding receivables and cash runway.
+- **Invoice Management:** Create, edit, delete and track invoices.
+- **Supply Chain Network Graph:** Visualize interconnected businesses and dependencies.
+- **Financial Contagion Analysis:** Analyze how financial stress spreads across businesses.
+- **Payment Shock Simulation:** Simulate payment delays and financial scenarios.
+- **Early Warning System:** Identify potential financial risks and alerts.
+- **AI-Powered Risk Explanation:** Gemini-powered risk explanations and recommendations.
+- **Preventive Actions:** TReDS estimator, payment collection insights and supplier protection.
+- **Command Center:** Monitor network risks and financial metrics.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Frontend | React, TypeScript |
+| Build Tool | Vite |
+| Styling | Tailwind CSS |
+| Backend | Node.js, Express.js |
+| AI | Google Gemini API |
+| Charts | Recharts |
+| Icons | Lucide React |
+| Package Manager | Bun |
+
+---
+
+## 🏗️ Architecture
+
+- Frontend hosted on Vercel.
+- Backend hosted on Render.
+- AI integration using Google Gemini API.
+- Source code maintained on GitHub.
+
+---
+
+## ⚙️ Local Installation
 
 ```bash
-GEMINI_API_KEY="YOUR_GEMINI_API_KEY" # Optional: deterministic rule-based fallback activates automatically if unset
-APP_URL="http://localhost:3000"
+git clone https://github.com/PoojaG-08/Contagion-Radar.git
+
+cd Contagion-Radar
+
+bun install
+
+bun run dev
 ```
 
-### Install & Run
+Create a `.env` file and configure:
 
-```bash
-npm install
-npm run dev
+```env
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-The Express backend (`server.ts`) and Vite frontend run unified on `http://localhost:3000`.
-
-### Production Build & Start
-
-```bash
-npm run build
-NODE_ENV=production npm start
-```
+Never commit your actual API key to GitHub.
 
 ---
 
-## REST API Endpoints
+## 🌍 Deployment
 
-- `GET /api/health` — Server status and AI availability
-- `GET /api/dashboard?businessId=bus-kaveri` — Dynamic KPIs, overdue banner, and trend series
-- `GET /api/businesses` — All 18 networked businesses
-- `GET /api/graph` — Graph nodes and directed dependency edges
-- `GET /api/invoices` | `POST /api/invoices` | `PUT /api/invoices/:id` | `DELETE /api/invoices/:id` — Invoice CRUD with automatic metric recalculation
-- `GET /api/contagion/:businessId` — Multi-stage downstream contagion propagation
-- `POST /api/simulate-shock` — Payment shock stress-test simulation
-- `GET /api/alerts` | `PATCH /api/alerts/:id/review` — Early-warning alert triage
-- `GET /api/actions?businessId=bus-kaveri` — Simulated preventive action recommendations
-- `POST /api/explain-risk` — Server-side Gemini AI risk explanation with deterministic fallback
-- `POST /api/demo/reset` — Restores seeded baseline dataset
+| Component | Platform |
+|---|---|
+| Live Frontend | Vercel |
+| Backend API | Render |
+| Source Code | GitHub |
+| AI Service | Google Gemini |
+
+**Live Application:** https://contagion-radar.vercel.app/
+
+---
+
+## 💡 Future Enhancements
+
+- Persistent database integration.
+- Real-time financial data integration.
+- Advanced machine learning-based risk prediction.
+- Automated payment delay notifications.
+- Enhanced predictive analytics.
+
+---
+
+## 🎯 Project Objective
+
+To build an intelligent financial risk monitoring platform that helps identify early signs of financial stress and understand how payment delays can impact interconnected businesses across SME supply chains.
+
+---
+
+## ⚠️ Disclaimer
+
+Contagion Radar is an academic/hackathon prototype. Business records, invoice information, risk scores and simulation results are illustrative and do not represent verified financial data or professional financial advice.
+
+---
+
+## ⭐ Developed By
+
+**TEAM AETHERGRID**
+
+Building innovative solutions for financial intelligence and supply chain resilience.
